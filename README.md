@@ -1,8 +1,6 @@
 # 🌐 Progrentis FilamentPhp 
 
 Aplicacion para la gestion pago de la cuota de la plataforma progrentis para el centro educativo cefodipf.
-## Introduction Video
-[![Build FilamentPhp Apps 10x Faster | Kaido-Kit Starter Kit (Complete Demo)](https://img.youtube.com/vi/t6q1zBqaBGU/maxresdefault.jpg)](http://www.youtube.com/watch?v=t6q1zBqaBGU "Build FilamentPhp Apps 10x Faster | Kaido-Kit Starter Kit (Complete Demo)")
 ## ✨ Features
 
 ### 🛠️ Developer Experience
@@ -46,10 +44,15 @@ Aplicacion para la gestion pago de la cuota de la plataforma progrentis para el 
 
 ## 🚀 Quick Start
 
-1. Create new project using composer
+1. Copiar el proyecto
     
     ```php
-    composer create-project siubie/kaido-kit
+    git clone git@github.com:whopc/progrentis.git
+    ```
+    1. Entrar en la carpeta 
+
+    ```php
+    cd progrentis
     ```
     
 2. Composer install
@@ -76,7 +79,7 @@ Aplicacion para la gestion pago de la cuota de la plataforma progrentis para el 
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_PORT=3306
-    DB_DATABASE=kaido_kit
+    DB_DATABASE=progrentis
     DB_USERNAME=root
     DB_PASSWORD=
     ```
@@ -156,34 +159,12 @@ APP_TIMEZONE=UTC
 APP_URL=https://localhost:8000
 ```
 
-## 🤝 Contributing
 
-We welcome contributions! Please follow these steps:
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+## 💬 Supporte
 
-## 🙏 Acknowledgments
+- 🐛 [Reporte fallas](aristofanethp@gmail.com)
+- Tel. 809-803-4111
 
-- [FilamentPHP](https://filamentphp.com/)
-- [Laravel](https://laravel.com/)
-- All our amazing contributors
 
-## 💬 Support
-
-- 🐛 [Report a bug](https://github.com/siubie/kaido-kit/issues)
-- 💡 [Request a feature](https://github.com/siubie/kaido-kit/issues)
-- 📧 [Email support](mailto:putraprima@gmail.com)
-- 💬 [Discord community](https://discord.com/invite/RwqXDUJGPg)
-- 💬 [Whatsapp community](https://chat.whatsapp.com/HJtRp9Eo5wl6NhYIJbkuZL)
-
-## ⭐ Show your support
-
-Give a ⭐️ if this project helped you!
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=siubie/kaido-kit&type=Date)](https://star-history.com/#siubie/kaido-kit&Date)
 # progrentis
