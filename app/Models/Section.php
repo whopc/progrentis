@@ -16,4 +16,8 @@ class Section extends Model
     {
         return $this->belongsTo(Grade::class);
     }
+    public function students()
+    {
+        return $this->belongsToMany(Student::class);
+    }
 }

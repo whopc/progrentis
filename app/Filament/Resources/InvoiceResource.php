@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\InvoiceResource\Pages;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Models\Student;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -68,9 +69,20 @@ class InvoiceResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('student.nombre')
-                    ->label('Estudiante')
+                    ->label('Nombre')
                     ->sortable()
                     ->searchable(),
+
+                TextColumn::make('student.apellido')
+                    ->label('Apellidos')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('student.section.name')
+                    ->label('Sección')
+                    ->sortable()
+                    ->searchable()
+                    ->getStateUsing(fn ($record) => $record->student?->section?->name ?? 'Sin Sección'),
 
                 TextColumn::make('monto_total')
                     ->label('Monto Total')

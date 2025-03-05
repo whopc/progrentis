@@ -23,7 +23,7 @@ class Student extends Model
 
     public function section()
     {
-        return $this->belongsTo(Section::class);
+        return $this->belongsTo(Section::class, 'section_id');
     }
 
     // Relación: Un estudiante tiene un solo Invoice (Factura)
