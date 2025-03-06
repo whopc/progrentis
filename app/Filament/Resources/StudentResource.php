@@ -62,6 +62,10 @@ class StudentResource extends Resource
                 TextColumn::make('apellido')->label('Apellido')->sortable()->searchable(),
                 TextColumn::make('grade.name')->label('Grado')->sortable(),
                 TextColumn::make('section.name')->label('Sección')->sortable(),
+                TextColumn::make('invoice.monto_pagado')
+                    ->label('Monto Pagado')
+                    ->sortable()
+                    ->money('DOP'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('grade_id')

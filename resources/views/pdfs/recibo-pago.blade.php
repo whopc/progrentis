@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            font-size: 14px;
+            font-size: 22px;
             margin: 20px;
         }
         .header {
@@ -24,7 +24,7 @@
             margin-bottom: 10px;
         }
         .title {
-            font-size: 18px;
+            font-size: 26px;
             font-weight: bold;
             text-align: center;
             margin-bottom: 10px;
@@ -40,7 +40,7 @@
         .footer {
             margin-top: 20px;
             text-align: center;
-            font-size: 12px;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -48,7 +48,7 @@
 
 <div class="header">
     @if(isset($schoolLogo) && $schoolLogo)
-        <img src="{{ $schoolLogo }}" alt="Logo del Centro" width="100">
+        <img src="{{ $schoolLogo }}" alt="Logo del Centro" width="300">
     @else
         <p><strong>No hay logo disponible</strong></p>
     @endif

@@ -49,4 +49,8 @@ class ReportePagosCurso extends Page
             'students' => $students,
         ];
     }
+    public function getViewData(): array
+    {
+        return $this->getData(); // Retorna los datos que necesitas en la vista
+    }
 }
