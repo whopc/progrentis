@@ -186,7 +186,9 @@ class InvoiceResource extends Resource
                     })
 
             ])
-            ->bulkActions([]);
+            ->bulkActions([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]);
     }
 
     public static function getPages(): array
