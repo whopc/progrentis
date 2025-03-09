@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Payment;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Response;
+use App\Filament\Pages\ReportePagosSeccion;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -20,3 +21,4 @@ use Illuminate\Support\Facades\Response;
 //    return $pdf->download('Recibo_Pago_'.$payment->id.'.pdf');
 //})->name('recibo-pago');
 Route::get('/recibo-pago/{id}', [ReciboPagoController::class, 'descargarRecibo'])->name('recibo-pago');
+Route::post('/reporte-pagos-seccion/exportar', [ReportePagosSeccion::class, 'exportarPDF'])->name('reporte-pagos-seccion.exportar');

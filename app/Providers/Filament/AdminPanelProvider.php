@@ -30,6 +30,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Rupadana\ApiService\ApiServicePlugin;
 use App\Filament\Pages\ReportePagosCurso;
+use App\Filament\Pages\ReportePagosSeccion;
 
 use App\Filament\Pages\ReporteSaldosEstudiantes;
 
@@ -102,9 +103,11 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications();
     }
 
+
     public function pages(): array
     {
         return [
+            ReportePagosSeccion::class,
             CuadrePagosReport::class,
             ReportePagosCurso::class,
             ReporteSaldosEstudiantes::class,

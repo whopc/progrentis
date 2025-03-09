@@ -8,6 +8,7 @@ use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Actions\Action;
 
 class PaymentResource extends Resource
 {
@@ -98,6 +99,12 @@ class PaymentResource extends Resource
                     ->sortable(),
             ])
             ->actions([
+                Action::make('imprimir_recibo')
+                    ->label('Imprimir Recibo')
+                    ->icon('heroicon-o-printer')
+                    ->color('success')
+                    ->url(fn (Payment $record): string => route('recibo-pago', ['id' => $record->id]))
+                    ->openUrlInNewTab(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

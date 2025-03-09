@@ -17,6 +17,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Filament\Notifications\Notification;
 use Livewire\Component;
+use Filament\Notifications\Actions\Action as NotificationAction;
 
 class InvoiceResource extends Resource
 {
@@ -105,8 +106,8 @@ class InvoiceResource extends Resource
                     ->label('Registrar Pago')
                     ->icon('heroicon-m-banknotes')
                     ->modalHeading('Registrar Pago')
-                    ->modalIcon('heroicon-m-banknotes') // Icono en la cabecera del modal
-                    ->modalSubmitActionLabel('Registrar Pago') // Cambia el texto del botón
+                    ->modalIcon('heroicon-m-banknotes')
+                    ->modalSubmitActionLabel('Registrar Pago')
                     ->form(fn (Invoice $record) => [
                         TextInput::make('monto')
                             ->label('Monto a Pagar')
@@ -128,7 +129,6 @@ class InvoiceResource extends Resource
                             ->default('efectivo')
                             ->reactive(),
                     ])
-
                     ->action(function (array $data, Invoice $record, Component $livewire) {
                         $payment = DB::transaction(function () use ($data, $record) {
                             $montoNuevo = $data['monto'];
@@ -149,7 +149,7 @@ class InvoiceResource extends Resource
                                 default => 'completado',
                             };
 
-                            // **Crear el pago**
+                            // Crear el pago
                             $payment = Payment::create([
                                 'student_id' => $record->student_id,
                                 'invoice_id' => $record->id,
@@ -159,7 +159,7 @@ class InvoiceResource extends Resource
                                 'estado' => $estadoPago,
                             ]);
 
-                            // **Actualizar factura**
+                            // Actualizar factura
                             $record->monto_pagado += $montoNuevo;
                             $record->estado = ($record->monto_pagado >= $montoTotal) ? 'pagado' : 'parcial';
                             $record->save();
@@ -169,21 +169,110 @@ class InvoiceResource extends Resource
 
                         if ($payment) {
                             Notification::make()
-                                ->title('Éxito')
-                                ->body('Pago registrado correctamente.')
+                                ->title('Pago registrado correctamente')
+                                ->body('El pago de ' . number_format($data['monto'], 2) . ' DOP ha sido registrado con éxito.')
                                 ->success()
+                                ->actions([
+                                    \Filament\Notifications\Actions\Action::make('ver_recibo')
+                                        ->label('Ver Recibo')
+                                        ->url(route('recibo-pago', ['id' => $payment->id]))
+                                        ->openUrlInNewTab()
+                                ])
+                                ->persistent() // Para que la notificación no desaparezca automáticamente
                                 ->send();
 
-                            // ✅ Cerrar el modal después del pago
+                            // Cerrar el modal después del pago
                             $livewire->dispatch('close-modal');
 
-                            // 🔄 Recargar la tabla para reflejar cambios
+                            // Recargar la tabla para reflejar cambios
                             $livewire->dispatch('refreshTable');
-
-                            // ✅ Redirigir a la descarga del recibo después de cerrar el modal
-                            $livewire->dispatch('abrirRecibo', route('recibo-pago', ['id' => $payment->id]));
                         }
                     })
+//            ->actions([
+//                Action::make('registrarPago')
+//                    ->visible(fn ($record) => $record->estado !== 'pagado')
+//                    ->label('Registrar Pago')
+//                    ->icon('heroicon-m-banknotes')
+//                    ->modalHeading('Registrar Pago')
+//                    ->modalIcon('heroicon-m-banknotes') // Icono en la cabecera del modal
+//                    ->modalSubmitActionLabel('Registrar Pago') // Cambia el texto del botón
+//                    ->form(fn (Invoice $record) => [
+//                        TextInput::make('monto')
+//                            ->label('Monto a Pagar')
+//                            ->numeric()
+//                            ->default(fn ($record) => max(1, $record->monto_total - $record->monto_pagado))
+//                            ->required()
+//                            ->minValue(1)
+//                            ->maxValue($record->monto_total - $record->monto_pagado)
+//                            ->helperText("Monto restante a pagar: " . number_format($record->monto_total - $record->monto_pagado, 2) . " DOP")
+//                            ->reactive(),
+//
+//                        Select::make('metodo_pago')
+//                            ->label('Método de Pago')
+//                            ->options([
+//                                'efectivo' => 'Efectivo',
+//                                'transferencia' => 'Transferencia',
+//                                'tarjeta' => 'Tarjeta',
+//                            ])
+//                            ->default('efectivo')
+//                            ->reactive(),
+//                    ])
+//
+//                    ->action(function (array $data, Invoice $record, Component $livewire) {
+//                        $payment = DB::transaction(function () use ($data, $record) {
+//                            $montoNuevo = $data['monto'];
+//                            $montoPagado = $record->monto_pagado;
+//                            $montoTotal = $record->monto_total;
+//
+//                            if (($montoPagado + $montoNuevo) > $montoTotal) {
+//                                Notification::make()
+//                                    ->title('Error')
+//                                    ->body('El monto pagado no puede superar el monto total de la factura.')
+//                                    ->danger()
+//                                    ->send();
+//                                return null;
+//                            }
+//
+//                            $estadoPago = match ($data['metodo_pago']) {
+//                                'transferencia' => 'pendiente',
+//                                default => 'completado',
+//                            };
+//
+//                            // **Crear el pago**
+//                            $payment = Payment::create([
+//                                'student_id' => $record->student_id,
+//                                'invoice_id' => $record->id,
+//                                'monto' => $montoNuevo,
+//                                'fecha_pago' => now(),
+//                                'metodo_pago' => $data['metodo_pago'],
+//                                'estado' => $estadoPago,
+//                            ]);
+//
+//                            // **Actualizar factura**
+//                            $record->monto_pagado += $montoNuevo;
+//                            $record->estado = ($record->monto_pagado >= $montoTotal) ? 'pagado' : 'parcial';
+//                            $record->save();
+//
+//                            return $payment;
+//                        });
+//
+//                        if ($payment) {
+//                            Notification::make()
+//                                ->title('Éxito')
+//                                ->body('Pago registrado correctamente.')
+//                                ->success()
+//                                ->send();
+//
+//                            // ✅ Cerrar el modal después del pago
+//                            $livewire->dispatch('close-modal');
+//
+//                            // 🔄 Recargar la tabla para reflejar cambios
+//                            $livewire->dispatch('refreshTable');
+//
+//                            // ✅ Redirigir a la descarga del recibo después de cerrar el modal
+//                           // $livewire->dispatch('abrirRecibo', route('recibo-pago', ['id' => $payment->id]));
+//                        }
+//                    })
 
             ])
             ->bulkActions([
